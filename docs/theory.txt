@@ -1,0 +1,69 @@
+#Jenkins Job Github Repo + Maven + tomcat server:
+=================================================================
+~ Github —> To clone the project
+~ Maven —> To build or package the app to a war/jar file
+~ Tomcat —> To deploy the app to the server
+~ Jenkins —> Creating pipelines to automate the CI/CD model
+
+#Installation Requirements :
+=================================================================
+*Amazon VM :
+~ Security Groups : Inbound Rules : 8080
+~ java
+	sudo yum install java -y
+~ jenkins
+	Use Ai tools to get this downloaded (discussed in other theory files)
+~ git
+	sudo yum install git -v
+
+#Steps for configuring Tomcat :
+=================================================================
+~ Create a VM with name “tomcat-server”
+~ Configure as per general configurations
+~ In Security groups enable 8080 inbound rule
+~ Connect to this VM
+~ Install tomcat by using commands as below:
+	  wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.85/bin/apache-tomcat-9.0.85.tar.gz
+   	  tar -xvzf apache-tomcat-9.0.85.tar.gz
+   	  mv apache-tomcat-9.0.85 tomcat
+~ Configuring Some parameters as:
+
+
+#Jenkins Job Configuration:
+=================================================================
+~ Login to Jenkins Dashboard
+~ Add maven tool
+~ Click on Plugins and search for “Deploy to container” and Install it
+~ If we want we can restart Jenkins after Installation of Plugins
+~ Click “New-Item”
+~ Give a name (eg. Git-Maven-Tomcat-job) and Select Item type as “Freestyle Project”
+~ Next , Give a description as per choice
+~ Select Git under Source Code management and provide repo url as https://github.com/Haider7214/SpringApp.git
+~ Also change branch from */master —> */main
+~ Under Build Steps Select “Invoke top level Maven targets 
+~ Select the Globally created maven 
+~ Enter Goals as —> clean compile test package
+~ Tomcat Server is installed separately
+~ Under Post-Build actions select —> “Deploy war/ear to a container” —> This needs to be done later
+~ Click “Apply” and then “Save”
+
+~ Go to Jenkins Dashboard home page
+~ Select the created Job
+~ Click on “Build Now”
+~ Wait for Successful Build Message
+
+~ Under Console Outputs we’ll have workspace and war file will be generated there
+~ Now go to Configure 
+~ Under Post-Build actions select —> “Deploy war/ear to a container”
+		-> WAR/EAR files : target/FirstSpringWebApp-0.0.1-SNAPSHOT.war
+		-> Context path : FirstSpringWebApp
+		-> Click “Add Container”
+		-> Select “tomcat-9”
+		-> Next up provide credentials as per past tomcat configurations —> Username : admin 
+																	password : admin
+		-> Give ID as : Tomcat-Server-Credentials
+		-> Click “Add”
+		-> Also add the Tomcat URL as —> <tomcat-server-VM-public-ip>:8080
+~ Click “Apply” and then “Save”
+~ Again click on “Build Now” for the Jenkins Job
+
