@@ -22,12 +22,33 @@
 ~ Configure as per general configurations
 ~ In Security groups enable 8080 inbound rule
 ~ Connect to this VM
+~ Install jdk 21 by using the following command:
+	sudo yum install java-21-amazon-corretto -y
 ~ Install tomcat by using commands as below:
-	  wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.85/bin/apache-tomcat-9.0.85.tar.gz
-   	  tar -xvzf apache-tomcat-9.0.85.tar.gz
-   	  mv apache-tomcat-9.0.85 tomcat
+	  wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.85/bin/apache-tomcat-9.0.115.tar.gz
+   	  tar -xvzf apache-tomcat-9.0.115.tar.gz
+   	  
 ~ Configuring Some parameters as:
+  ls-l/cd apache-tomcat-9.0.115/cd conf/ls -l/vi tomcat-users.xml
+	<role rolename="manager-gui"/>
+ 	 <role rolename="admin-gui"/>
+	 <role rolename="manager-script"/>
+ 	 <user username="admin" password="admin1234" roles="manager-gui,admin-gui,manager-script"/>
 
+*Manager-script is used by Jenkins to internally access tomcat
+*<role rolename="manager-script"/> is important for Jenkins access
+
+~ Configure context.xml as:
+cd/cd apache-tomcat-9.0.115/ls -l/cd webapps/ls -l/cd host-manager/cd META-INF/ls -l/vi context.xml
+
+*change allow=“expression”/> to allow=“.*”/>
+
+*Start the tomcat Server as :
+cd/ cd apache-tomcat-9.0.115/cd bin/sh startup.sh
+
+*Now access the tomcat Server using the public IP of VM as:
+	<public-ip>:8080
+*Click on Host manager and login using credentials
 
 #Jenkins Job Configuration:
 =================================================================
