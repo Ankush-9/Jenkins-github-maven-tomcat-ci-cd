@@ -30,18 +30,19 @@
    	  
 ~ Configuring Some parameters as:
   ls-l/cd apache-tomcat-9.0.115/cd conf/ls -l/vi tomcat-users.xml
-	<role rolename="manager-gui"/>
- 	 <role rolename="admin-gui"/>
+	 <role rolename="manager-gui"/>
 	 <role rolename="manager-script"/>
- 	 <user username="admin" password="admin1234" roles="manager-gui,admin-gui,manager-script"/>
+	 <role rolename="admin-gui"/>
+ 	 <user username="admin" password="admin1234" roles="manager-gui,manager-script,admin-gui"/>
 
 *Manager-script is used by Jenkins to internally access tomcat
 *<role rolename="manager-script"/> is important for Jenkins access
 
 ~ Configure context.xml as:
+cd/cd apache-tomcat-9.0.115/ls -l/cd webapps/ls -l/cd manager/cd META-INF/ls -l/vi context.xml
 cd/cd apache-tomcat-9.0.115/ls -l/cd webapps/ls -l/cd host-manager/cd META-INF/ls -l/vi context.xml
 
-*change allow=“expression”/> to allow=“.*”/>
+*change allow=“expression”/> to allow=“.*”/> for both
 
 *Start the tomcat Server as :
 cd/ cd apache-tomcat-9.0.115/cd bin/sh startup.sh
