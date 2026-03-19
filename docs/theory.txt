@@ -81,11 +81,30 @@ cd/ cd apache-tomcat-9.0.115/cd bin/sh startup.sh
 		-> Context path : FirstSpringWebApp
 		-> Click “Add Container”
 		-> Select “tomcat-9”
-		-> Next up provide credentials as per past tomcat configurations —> Username : admin 
-																	password : admin
+		-> Next up provide credentials as per past tomcat configurations —> Username : admin
+										 -> password : admin
 		-> Give ID as : Tomcat-Server-Credentials
 		-> Click “Add”
+		-> Now select the configured credentials
 		-> Also add the Tomcat URL as —> <tomcat-server-VM-public-ip>:8080
 ~ Click “Apply” and then “Save”
-~ Again click on “Build Now” for the Jenkins Job
+~ Open the created job and,
+~ Click on “Build Now” for the Jenkins Job to be re-configured
+~ Now go to the manager section of Tomcat after successful build and we’ll notice our app deployed on the tomcat server
+
+#Notes:
+=================================================================
+~ Solution for Slow Jenkins after establishing re-connection
+~ This is because our public ip changes after every VM start/stop session
+~ We need to configure the new public ip for Jenkins
+~ Open your terminal where Jenkins-Server is connected via ssh connection
+~ cd /var/lib/jenkins/
+~ ls -l
+~ sudo su
+~ vi jenkins.model.JenkinsLocationConfiguration.xml
+~ I(Insert Mode)
+~ Copy new public ip and configure it in the .xml file
+~ esc —> :wq
+~ cd
+~ sudo systemctl restart jenkins
 
